@@ -71,6 +71,8 @@ type BaseConfiguration struct {
 	hasBrush      bool
 
 	GridList []opts.Grid `json:"grid,omitempty"`
+
+	DynamicUpdateConfig *DynamicUpdateConfig
 }
 
 // BaseActions represents a dispatchAction set needed by all chart types.
@@ -232,6 +234,18 @@ func (ba *BaseActions) json() map[string]interface{} {
 		"areas": ba.Areas,
 	}
 	return obj
+}
+
+type DynamicUpdateConfig struct {
+	Host string
+	Port int
+}
+
+// WithDynamicUpdateEnabled sets if we update the chart via websocket dynamically
+func WithDynamicUpdateEnabled(config *DynamicUpdateConfig) GlobalOpts {
+	return func(bc *BaseConfiguration) {
+		bc.DynamicUpdateConfig = config
+	}
 }
 
 // WithAreas sets the areas of the action
